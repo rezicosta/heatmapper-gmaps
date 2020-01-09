@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 80vh;
+        width: 100vw;
+      }
+      .heading {
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        font-family: "Montserrat", sans-serif;
+      }
+    </style>
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:700&display=swap&subset=latin-ext"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="heading">
+      <h1>VIZE</h1>
+    </div>
+    <div id="map"></div>
+    <script>
+      var heatmapData = [];
+      function initMap() {
+        var middle = new google.maps.LatLng(17.131072, 6.714829);
+
+        map = new google.maps.Map(document.getElementById("map"), {
+          center: middle,
+          zoom: 3,
+          draggableCursor: "pointer"
+        });
+
+        var heatmap = new google.maps.visualization.HeatmapLayer({
+          data: heatmapData
+        });
+        heatmap.setMap(map);
+
+        google.maps.event.addListener(map, "click", function(event) {
+          marker = new google.maps.Marker({
+            position: event.latLng,
+            map: map,
+            draggable: true,
+            icon: {
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: 0
+            }
+          });
+          heatmapData.push(event.latLng);
+          console.log(heatmapData);
+          heatmap.setMap(map);
+        });
+      }
+    </script>
+    <script
+      type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaP09RKPbg-HCM3aESwkAKElWD6pDpL48&libraries=visualization&callback=initMap"
+    ></script>
+  </body>
+</html>
